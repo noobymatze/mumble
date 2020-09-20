@@ -2,7 +2,7 @@ package io.noobymatze.ramble
 
 import io.noobymatze.ramble.internal.RunParser
 import io.noobymatze.ramble.parser.Chars
-import io.noobymatze.ramble.parser.flatMap
+import io.noobymatze.ramble.parser.andThen
 import java.io.Serializable
 
 
@@ -101,7 +101,7 @@ sealed class Parser<out E, out A>: Serializable {
          * @return a new [Parser]
          */
         fun <E> fail(problem: Problem.Item<E>): Parser<E, Nothing> =
-            GetPos flatMap {
+            GetPos andThen {
                 Failure(setOf(Problem(it, problem)))
             }
 

@@ -37,7 +37,7 @@ interface Chars {
      * @return a new [Parser]
      */
     fun string(value: String): Parser<Nothing, String> =
-        take(value.length) flatMap { parsed ->
+        take(value.length) andThen { parsed ->
             if (parsed == value)
                 Parser.succeed(parsed)
             else
