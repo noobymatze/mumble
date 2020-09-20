@@ -41,7 +41,7 @@ interface Chars {
             if (parsed == value)
                 Parser.succeed(parsed)
             else
-                Parser.fail(Problem.Item.Unexpected(value, parsed))
+                Parser.fail(Problem.Reason.Unexpected(value, parsed))
         }
 
 }

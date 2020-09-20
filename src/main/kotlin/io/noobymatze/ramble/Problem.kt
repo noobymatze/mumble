@@ -4,27 +4,35 @@ import java.io.Serializable
 
 
 /**
+ * A [Problem] defines an error, which happened while parsing.
  *
- * @param position
- * @param item
+ *
+ * ## Note on naming
+ *
+ * This class could have been called Error, but has not to avoid
+ * any naming conflicts with the Kotlin [Error].
+ *
+ * @param position the position at which the problem has occurred.
+ *                 This can be used to pretty print errors.
+ * @param reason the actual reason for the [Problem]
  */
 data class Problem<out E>(
     val position: Int,
-    val item: Item<E>,
+    val reason: Reason<E>,
 ): Serializable {
 
-    sealed class Item<out E> {
+    sealed class Reason<out E> {
 
         data class Unexpected(
             val expected: String,
             val found: String? = null
-        ): Item<Nothing>()
+        ): Reason<Nothing>()
 
-        object Eof: Item<Nothing>()
+        object Eof: Reason<Nothing>()
 
         data class Custom<out E>(
             val error: E
-        ): Item<E>()
+        ): Reason<E>()
 
     }
 
@@ -33,9 +41,9 @@ data class Problem<out E>(
      * @param f
      * @return
      */
-    fun <E1> map(f: (E) -> E1): Problem<E1> = when (item) {
-        is Item.Custom ->
-            Problem(position, Item.Custom(f(item.error)))
+    fun <E1> map(f: (E) -> E1): Problem<E1> = when (reason) {
+        is Reason.Custom ->
+            Problem(position, Reason.Custom(f(reason.error)))
 
         else ->
             @Suppress("UNCHECKED_CAST")
@@ -51,7 +59,7 @@ data class Problem<out E>(
          * @return
          */
         fun <E> custom(position: Int, error: E): Problem<E> =
-            Problem(position, Item.Custom(error))
+            Problem(position, Reason.Custom(error))
 
         /**
          *
@@ -60,7 +68,7 @@ data class Problem<out E>(
          * @return
          */
         fun <E> unexpected(position: Int, message: String): Problem<E> =
-            Problem(position, Item.Unexpected(message))
+            Problem(position, Reason.Unexpected(message))
 
         /**
          *
@@ -68,7 +76,7 @@ data class Problem<out E>(
          * @return
          */
         fun <E> unexpectedEof(position: Int): Problem<E> =
-            Problem(position, Item.Eof)
+            Problem(position, Reason.Eof)
 
     }
 

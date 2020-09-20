@@ -100,7 +100,7 @@ sealed class Parser<out E, out A>: Serializable {
          * @param problem a problem, that occurred
          * @return a new [Parser]
          */
-        fun <E> fail(problem: Problem.Item<E>): Parser<E, Nothing> =
+        fun <E> fail(problem: Problem.Reason<E>): Parser<E, Nothing> =
             GetPos andThen {
                 Failure(setOf(Problem(it, problem)))
             }
@@ -114,7 +114,7 @@ sealed class Parser<out E, out A>: Serializable {
          * @return a new [Parser]
          */
         fun <E> fail(error: E): Parser<E, Nothing> =
-            fail(Problem.Item.Custom(error))
+            fail(Problem.Reason.Custom(error))
 
 
         /**
