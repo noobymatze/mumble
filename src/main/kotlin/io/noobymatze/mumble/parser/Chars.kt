@@ -1,7 +1,7 @@
-package io.noobymatze.ramble.parser
+package io.noobymatze.mumble.parser
 
-import io.noobymatze.ramble.Parser
-import io.noobymatze.ramble.Problem
+import io.noobymatze.mumble.Parser
+import io.noobymatze.mumble.Problem
 
 
 interface Chars {

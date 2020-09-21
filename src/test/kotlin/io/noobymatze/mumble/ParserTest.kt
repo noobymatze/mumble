@@ -1,4 +1,4 @@
-package io.noobymatze.ramble
+package io.noobymatze.mumble
 
 import net.jqwik.api.*
 import kotlin.test.assertEquals

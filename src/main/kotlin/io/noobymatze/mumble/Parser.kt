@@ -1,8 +1,8 @@
-package io.noobymatze.ramble
+package io.noobymatze.mumble
 
-import io.noobymatze.ramble.internal.RunParser
-import io.noobymatze.ramble.parser.Chars
-import io.noobymatze.ramble.parser.andThen
+import io.noobymatze.mumble.internal.RunParser
+import io.noobymatze.mumble.parser.Chars
+import io.noobymatze.mumble.parser.andThen
 import java.io.Serializable
 
 

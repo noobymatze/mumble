@@ -5,11 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.noobymatze</groupId>
-    <artifactId>ramble</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <artifactId>mumble</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
 
     <properties>
         <kotlin.version>1.4.10</kotlin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
@@ -72,6 +73,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

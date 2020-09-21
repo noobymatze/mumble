@@ -1,8 +1,8 @@
-package io.noobymatze.ramble.internal
+package io.noobymatze.mumble.internal
 
-import io.noobymatze.ramble.ParseResult
-import io.noobymatze.ramble.Parser
-import io.noobymatze.ramble.Problem
+import io.noobymatze.mumble.ParseResult
+import io.noobymatze.mumble.Parser
+import io.noobymatze.mumble.Problem
 import java.util.*
 import kotlin.math.min
 

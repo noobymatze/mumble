@@ -1,4 +1,4 @@
-package io.noobymatze.ramble
+package io.noobymatze.mumble
 
 import java.io.Serializable
 
