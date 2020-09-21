@@ -1,4 +1,4 @@
-# Ramble
+# Mumble
 
 A zero dependency Kotlin library implementing parser combinators,
 inspired by megaparsec, combine and so on.
@@ -21,12 +21,7 @@ sealed class Expr {
     data class Add(val expressions: List<Expr>): Expr()
     data class Num(val value: Int): Expr()
 }
-```
 
-Now, with the help of this library, we can parse it with just a few
-combinators.
-
-```kotlin
 val lparen = Parser.string("(")
 val rparen = Parser.string(")")
 val plus   = Parser.string("+")
