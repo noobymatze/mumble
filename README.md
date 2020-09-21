@@ -17,10 +17,9 @@ We can model this example using `sealed class`es in Kotlin. Take a
 look.
 
 ```kotlin
-sealed class Expr {
-    data class Add(val expressions: List<Expr>): Expr()
-    data class Num(val value: Int): Expr()
-}
+sealed class Expr
+data class Add(val expressions: List<Expr>): Expr()
+data class Num(val value: Int): Expr()
 
 val lparen = Parser.string("(")
 val rparen = Parser.string(")")
