@@ -26,10 +26,10 @@ val rparen = Parser.string(")")
 val plus   = Parser.string("+")
 val number = Parser.int map Expr::Num
 
-fun add(): Parser<Nothing, Expr> =
+fun add(): UParser<Expr> =
     plus flatMap { expr().many() } map Expr::Add
 
-fun expr(): Parser<Nothing, Expr> = Parser
+fun expr(): UParser<Expr> = Parser
     .oneOf(number, add())
     .sepBy(Parser.spaces)
     

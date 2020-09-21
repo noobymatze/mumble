@@ -7,7 +7,13 @@ import java.io.Serializable
 
 
 /**
- * A [Parser] is a function from strings to
+ * A [Parser] that does not have a custom error.
+ */
+typealias UParser<A> = Parser<Nothing, A>
+
+/**
+ * A [Parser] is a function from strings to a list of pairs of strings
+ * and things.
  *
  * You can think of a parser as a function of the following signature
  *
@@ -91,7 +97,7 @@ sealed class Parser<out E, out A>: Serializable {
          * @param value any value
          * @return a new [Parser]
          */
-        fun <A> succeed(value: A): Parser<Nothing, A> =
+        fun <A> succeed(value: A): UParser<A> =
             Success(value)
 
         /**
@@ -125,7 +131,7 @@ sealed class Parser<out E, out A>: Serializable {
          * @param n the number of remaining tokens
          * @return a new [Parser]
          */
-        internal fun ensure(n: Int): Parser<Nothing, Unit> =
+        internal fun ensure(n: Int): UParser<Unit> =
             Ensure(n)
 
         /**
@@ -134,7 +140,7 @@ sealed class Parser<out E, out A>: Serializable {
          * @param n the number of remaining tokens
          * @return a new [Parser]
          */
-        internal fun advance(n: Int): Parser<Nothing, String> =
+        internal fun advance(n: Int): UParser<String> =
             Advance(n)
 
     }
