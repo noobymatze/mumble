@@ -47,14 +47,14 @@ internal class RunParser<out E, out A>(
                 }
 
                 is Parser.TakeWhile -> {
-                    val builder = StringBuilder()
+                    val start = offset
                     val p = curParser.predicate
                     while (offset < input.length && p(input[offset])) {
-                        builder.append(input[offset])
                         offset++
                     }
 
-                    curParser = Parser.Success(builder.toString())
+                    val result = input.substring(start, offset)
+                    curParser = Parser.Success(result)
                 }
 
                 is Parser.Ensure -> {

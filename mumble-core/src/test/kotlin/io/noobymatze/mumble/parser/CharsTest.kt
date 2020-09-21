@@ -1,0 +1,35 @@
+package io.noobymatze.mumble.parser
+
+import io.noobymatze.mumble.ParseResult
+import io.noobymatze.mumble.Parser
+import net.jqwik.api.ForAll
+import net.jqwik.api.Property
+import kotlin.test.assertEquals
+import kotlin.test.fail
+
+
+class CharsTest {
+
+    @Property
+    fun stringShouldParseExactly(@ForAll input: String) {
+        val parser = Parser.string(input)
+        val result = parser.run(input)
+        assertEquals(ParseResult.Success(input), result)
+    }
+
+    @Property
+    fun takeWhileShouldTakeLetters(@ForAll input: String) {
+        val x = Parser.takeWhile { it.isLetter() }
+        val result = input.takeWhile { it.isLetter() }
+        assertParse(result, x, input)
+    }
+
+    private fun <E> assertParse(expected: String, parser: Parser<E, String>, input: String) {
+        val run = parser.run(input)
+        run.fold(
+            onSuccess = { assertEquals(expected, it) },
+            onError = { fail("Failed with error $it") }
+        )
+    }
+
+}

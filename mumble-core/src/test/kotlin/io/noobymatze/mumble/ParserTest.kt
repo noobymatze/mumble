@@ -14,14 +14,6 @@ class ParserTest {
         )
     }
 
-    @Example
-    fun string() {
-        val input = "ABC"
-        val parser = Parser.string("ABC")
-        val result = parser.run(input)
-        assertEquals(ParseResult.Success(input), result)
-    }
-
     @Property
     fun compositionLaw(
         @ForAll("stringParsers") parser: Parser<Any?, String>,
