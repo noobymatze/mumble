@@ -4,7 +4,7 @@ import java.io.Serializable
 
 
 /**
- * A [Problem] defines an error, which happened while parsing.
+ * A [ParseError] defines an error, which happened while parsing.
  *
  *
  * ## Note on naming
@@ -14,9 +14,9 @@ import java.io.Serializable
  *
  * @param position the position at which the problem has occurred.
  *                 This can be used to pretty print errors.
- * @param reason the actual reason for the [Problem]
+ * @param reason the actual reason for the [ParseError]
  */
-data class Problem<out E>(
+data class ParseError<out E>(
     val position: Int,
     val reason: Reason<E>,
 ): Serializable {
@@ -28,7 +28,7 @@ data class Problem<out E>(
             val found: String? = null
         ): Reason<Nothing>()
 
-        object Eof: Reason<Nothing>()
+        object EndOfInput: Reason<Nothing>()
 
         data class Custom<out E>(
             val error: E
@@ -41,13 +41,13 @@ data class Problem<out E>(
      * @param f
      * @return
      */
-    fun <E1> map(f: (E) -> E1): Problem<E1> = when (reason) {
+    fun <E1> map(f: (E) -> E1): ParseError<E1> = when (reason) {
         is Reason.Custom ->
-            Problem(position, Reason.Custom(f(reason.error)))
+            ParseError(position, Reason.Custom(f(reason.error)))
 
         else ->
             @Suppress("UNCHECKED_CAST")
-            this as Problem<E1>
+            this as ParseError<E1>
     }
 
     companion object {
@@ -58,8 +58,8 @@ data class Problem<out E>(
          * @param error
          * @return
          */
-        fun <E> custom(position: Int, error: E): Problem<E> =
-            Problem(position, Reason.Custom(error))
+        fun <E> custom(position: Int, error: E): ParseError<E> =
+            ParseError(position, Reason.Custom(error))
 
         /**
          *
@@ -67,16 +67,16 @@ data class Problem<out E>(
          * @param message
          * @return
          */
-        fun <E> unexpected(position: Int, message: String): Problem<E> =
-            Problem(position, Reason.Unexpected(message))
+        fun <E> unexpected(position: Int, message: String): ParseError<E> =
+            ParseError(position, Reason.Unexpected(message))
 
         /**
          *
          * @param position
          * @return
          */
-        fun <E> unexpectedEof(position: Int): Problem<E> =
-            Problem(position, Reason.Eof)
+        fun <E> unexpectedEof(position: Int): ParseError<E> =
+            ParseError(position, Reason.EndOfInput)
 
     }
 

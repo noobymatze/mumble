@@ -2,7 +2,7 @@ package io.noobymatze.mumble.internal
 
 import io.noobymatze.mumble.ParseResult
 import io.noobymatze.mumble.Parser
-import io.noobymatze.mumble.Problem
+import io.noobymatze.mumble.ParseError
 import java.util.*
 import kotlin.math.min
 
@@ -29,7 +29,7 @@ internal class RunParser<out E, out A>(
                     unwindStack()
 
                     curParser = nextInstr(curParser.errors)
-                        ?: return ParseResult.Failure(curParser.errors as Set<Problem<E>>)
+                        ?: return ParseResult.Failure(curParser.errors as Set<ParseError<E>>)
                 }
 
                 is Parser.FlatMap<*, *, *, *> -> {
@@ -60,7 +60,7 @@ internal class RunParser<out E, out A>(
                 is Parser.Ensure -> {
                     val n = curParser.n
                     curParser = if (offset + n >= input.length)
-                        Parser.Failure(setOf(Problem.unexpectedEof(offset)))
+                        Parser.Failure(setOf(ParseError.unexpectedEof(offset)))
                     else
                         Parser.succeed(Unit)
                 }

@@ -28,7 +28,7 @@ sealed class Parser<out E, out A>: Serializable {
     ): Parser<Nothing, A>()
 
     internal data class Failure<E>(
-        val errors: Set<Problem<E>>,
+        val errors: Set<ParseError<E>>,
     ): Parser<E, Nothing>()
 
     internal data class FlatMap<E: E1, out E1, A, out B>(
@@ -39,7 +39,7 @@ sealed class Parser<out E, out A>: Serializable {
     internal data class Fold<E: E1, out E1, A, out B>(
         val parser: Parser<E, A>,
         val onSuccess: (A) -> Parser<E1, B>,
-        val onError: (Set<Problem<E>>) -> Parser<E1, B>,
+        val onError: (Set<ParseError<E>>) -> Parser<E1, B>,
     ): Parser<E1, B>(), (A) -> Parser<E1, B> {
         override fun invoke(value: A): Parser<E1, B> =
             onSuccess(value)
@@ -101,14 +101,14 @@ sealed class Parser<out E, out A>: Serializable {
             Success(value)
 
         /**
-         * Returns a new [Parser], always failing with the given [problem].
+         * Returns a new [Parser], always failing with the given [parseError].
          *
-         * @param problem a problem, that occurred
+         * @param parseError a problem, that occurred
          * @return a new [Parser]
          */
-        fun <E> fail(problem: Problem.Reason<E>): Parser<E, Nothing> =
+        fun <E> fail(parseError: ParseError.Reason<E>): Parser<E, Nothing> =
             GetPos andThen {
-                Failure(setOf(Problem(it, problem)))
+                Failure(setOf(ParseError(it, parseError)))
             }
 
         /**
@@ -120,7 +120,7 @@ sealed class Parser<out E, out A>: Serializable {
          * @return a new [Parser]
          */
         fun <E> fail(error: E): Parser<E, Nothing> =
-            fail(Problem.Reason.Custom(error))
+            fail(ParseError.Reason.Custom(error))
 
 
         /**

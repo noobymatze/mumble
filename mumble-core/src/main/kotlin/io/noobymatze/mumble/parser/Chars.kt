@@ -1,7 +1,7 @@
 package io.noobymatze.mumble.parser
 
 import io.noobymatze.mumble.Parser
-import io.noobymatze.mumble.Problem
+import io.noobymatze.mumble.ParseError
 
 
 interface Chars {
@@ -41,7 +41,7 @@ interface Chars {
             if (parsed == value)
                 Parser.succeed(parsed)
             else
-                Parser.fail(Problem.Reason.Unexpected(value, parsed))
+                Parser.fail(ParseError.Reason.Unexpected(value, parsed))
         }
 
 }

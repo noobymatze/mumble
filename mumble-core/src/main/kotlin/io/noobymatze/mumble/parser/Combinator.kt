@@ -1,7 +1,7 @@
 package io.noobymatze.mumble.parser
 
 import io.noobymatze.mumble.Parser
-import io.noobymatze.mumble.Problem
+import io.noobymatze.mumble.ParseError
 
 
 /**
@@ -37,7 +37,7 @@ infix fun <E: E1, E1, A, B> Parser<E, A>.andThen(f: (A) -> Parser<E, B>): Parser
  */
 fun <E: E1, E1, A, B> Parser<E1, A>.fold(
     onSuccess: (A) -> Parser<E, B>,
-    onFailure: (Set<Problem<E1>>) -> Parser<E1, B>
+    onFailure: (Set<ParseError<E1>>) -> Parser<E1, B>
 ): Parser<E1, B> = when (this) {
     is Parser.Success ->
         onSuccess(value)
@@ -55,7 +55,7 @@ fun <E: E1, E1, A, B> Parser<E1, A>.fold(
  * @param handler a function applied to a set of errors
  * @return a new [Parser]
  */
-infix fun <E: E1, E1, A: A1, A1> Parser<E1, A1>.recover(handler: (Set<Problem<E1>>) -> Parser<E, A>): Parser<E1, A1> =
+infix fun <E: E1, E1, A: A1, A1> Parser<E1, A1>.recover(handler: (Set<ParseError<E1>>) -> Parser<E, A>): Parser<E1, A1> =
     fold(
         onSuccess = { Parser.succeed(it) },
         onFailure = handler

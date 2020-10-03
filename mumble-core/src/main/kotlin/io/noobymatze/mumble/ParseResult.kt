@@ -10,7 +10,7 @@ sealed class ParseResult<out E, out A> {
     ): ParseResult<Nothing, A>()
 
     internal data class Failure<out E>(
-        val errors: Set<Problem<E>>,
+        val errors: Set<ParseError<E>>,
     ): ParseResult<E, Nothing>()
 
     /**
@@ -32,7 +32,7 @@ sealed class ParseResult<out E, out A> {
      */
     fun <B> fold(
         onSuccess: (A) -> B,
-        onError: (Set<Problem<E>>) -> B
+        onError: (Set<ParseError<E>>) -> B
     ): B = when (this) {
         is Success ->
             onSuccess(value)
