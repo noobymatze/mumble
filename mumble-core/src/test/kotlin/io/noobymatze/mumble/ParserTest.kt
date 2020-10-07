@@ -9,8 +9,8 @@ class ParserTest {
     @Property
     fun identityLaw(@ForAll("stringParsers") a: Parser<Any?, *>,) {
         assertEquals(
-            a.map { it }.run(""),
-            a.run("")
+            a.map { it }.parse(""),
+            a.parse("")
         )
     }
 
@@ -22,7 +22,7 @@ class ParserTest {
     ) {
         val a = parser.map(g).map(f)
         val b = parser.map { f(g(it)) }
-        assertEquals(a.run(""), b.run(""))
+        assertEquals(a.parse(""), b.parse(""))
     }
 
     @Provide

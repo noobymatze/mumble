@@ -14,7 +14,7 @@ class CharsTest {
     @Property
     fun stringShouldParseExactly(@ForAll input: String) {
         val parser = Parser.string(input)
-        val result = parser.run(input)
+        val result = parser.parse(input)
         assertEquals(ParseResult.Success(input), result)
     }
 
@@ -32,7 +32,7 @@ class CharsTest {
     }
 
     private fun <E> assertParses(expected: String, parser: Parser<E, String>, input: String) {
-        val run = parser.run(input)
+        val run = parser.parse(input)
         run.fold(
             onSuccess = { assertEquals(expected, it) },
             onError = { fail("Failed with error $it") }

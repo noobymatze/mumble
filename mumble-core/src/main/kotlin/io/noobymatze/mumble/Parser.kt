@@ -86,7 +86,7 @@ sealed class Parser<out E, out A>: Serializable {
      * @param input text to be parsed
      * @return a new [Parser]
      */
-    fun run(input: String): ParseResult<E, A> =
+    fun parse(input: String): ParseResult<E, A> =
         RunParser(this, input).run()
 
     companion object: Chars {
